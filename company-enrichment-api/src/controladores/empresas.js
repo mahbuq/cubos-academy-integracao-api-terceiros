@@ -3,27 +3,24 @@ const fs = require("fs/promises");
 
 async function consultarEmpresa(req, res) {
    const dominioEmpresa = req.params.domain;
-   const apiKey = "";
-
-   const promessaAxios = axios.get(
-      `https://companyenrichment.abstractapi.com/v1/?api_key=${apiKey}&domain=${dominioEmpresa}`
-   );
 
    try {
+      const promessaAxios = axios.get(
+         `https://companyenrichment.abstractapi.com/v1/?api_key=${process.env.API_KEY}&domain=${dominioEmpresa}`
+      );
+
       const { data } = await promessaAxios;
+
       if (data.name) {
-         const empresas = JSON.parse(
-            await fs.readFile("./dados/empresas.json")
-         );
+         const empresas = JSON.parse(await fs.readFile("./dados/empresas.json"));
          empresas.push(data);
 
          fs.writeFile("./dados/empresas.json", JSON.stringify(empresas));
       }
-      res.json(data);
-      return;
+
+      return res.json(data);
    } catch (error) {
-      res.status(400).json({ erro: "Domínio inválido" });
-      return;
+      return res.status(400).json({ erro: error.message });
    }
 }
 
