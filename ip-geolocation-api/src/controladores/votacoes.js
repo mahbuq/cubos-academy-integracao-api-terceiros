@@ -5,10 +5,8 @@ async function verificarVoto(req, res) {
    const ip = req.params.id;
    const paisVotacao = req.params.pais;
 
-   const apiKey = "";
-
    const promessaAxios = axios.get(
-      `https://ipgeolocation.abstractapi.com/v1/?api_key=${apiKey}&ip_address=${ip}`
+      `https://ipgeolocation.abstractapi.com/v1/?api_key=${process.env.API_KEY}&ip_address=${ip}`
    );
 
    try {
