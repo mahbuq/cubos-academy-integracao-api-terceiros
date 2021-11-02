@@ -1,3 +1,7 @@
+require("dotenv").config({
+   path: "../.env",
+});
+
 const express = require("express");
 const { roteadores } = require("./rotas");
 const app = express();
